@@ -50,6 +50,9 @@ const Quiz = ({navigation}) => {
       setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(question[ques + 1]))
     }
+    if (ques === 9) {
+      handleShowResult()
+    }
   }
 
   const handleShowResult = () => {
@@ -60,7 +63,6 @@ const Quiz = ({navigation}) => {
 
   return (
     <View style={styles.container} >
-      {/* <Title /> */}
       {question && (
         <View style={styles.parent}>
           <View style={styles.top}>

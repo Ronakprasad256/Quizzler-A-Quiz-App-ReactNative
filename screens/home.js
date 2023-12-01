@@ -5,7 +5,7 @@ import Title from '../components/title'
 const Home = ({ navigation }) => {
     return (
         <View>
-            <Title />
+            <Title titleText= "QUIZZLER"/>
             <View style={styles.bannerContainer}>
                 <Image source={{ uri: 'https://cdn.leverageedu.com/blog/wp-content/uploads/2020/11/23170223/One-Word-Substitution-Quiz-01-3072x1920.jpg' }}
                     style={styles.banner}

@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Title = () => {
+const Title = ({titleText}) => {
   return (
     <View>
-      <Text style={styles.title}>QUIZZLER</Text>
+      <Text style={styles.title}>{titleText}</Text>
     </View>
   )
 }
