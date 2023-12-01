@@ -7,7 +7,7 @@ const Home = ({ navigation }) => {
         <View>
             <Title />
             <View style={styles.bannerContainer}>
-                <Image source={{ uri: 'https://image.freepik.com/free-vector/quiz-background-with-hand-holding-a-sign_23-2147593100.jpg' }}
+                <Image source={{ uri: 'https://cdn.leverageedu.com/blog/wp-content/uploads/2020/11/23170223/One-Word-Substitution-Quiz-01-3072x1920.jpg' }}
                     style={styles.banner}
                     resizeMode='contain'
                 />

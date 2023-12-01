@@ -1,55 +1,99 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Title from '../components/title'
+// import Title from '../components/title';
 
-const Quiz = ({ navigation }) => {
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+const Quiz = ({navigation}) => {
   const [question, setQuestion] = useState();
   const [ques, setQues] = useState(0);
-  const getQuid =async  () => {
-    const url = 'https://opentdb.com/api.php?amount=10&type=multiple';
+  const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0)
+
+  const getQuid = async () => {
+    const url = 'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
     const res = await fetch(url);
     const data = await res.json();
     setQuestion(data.results);
+    setOptions(generateOptionsAndShuffle(data.results[0]))
+  };
 
-  }
   useEffect(() => {
     getQuid()
-   }, [])
+  }, []);
+
+  const handleNextPress = () => {
+    setQues(ques + 1);
+    setOptions(generateOptionsAndShuffle(question[ques + 1]))
+
+  }
+
+  const generateOptionsAndShuffle = (_question) => {
+    const options = [..._question.incorrect_answers]
+    options.push(_question.correct_answer)
+
+    shuffleArray(options)
+
+    return options
+  }
+
+  const handleSelectedOption = (_option) => {
+    if (_option === question[ques].correct_answer) {
+      setScore(score + 10)
+    }
+    if (ques !== 9) {
+      setQues(ques + 1);
+      setOptions(generateOptionsAndShuffle(question[ques + 1]))
+    }
+  }
+
+  const handleShowResult = () => {
+    navigation.navigate('Result', {
+      score: score
+    })
+  }
+
   return (
     <View style={styles.container} >
-      <Title />
+      {/* <Title /> */}
       {question && (
         <View style={styles.parent}>
-      <View style={styles.top}>
-        <Text style={styles.question}>Q. {question[ques].question}</Text>
+          <View style={styles.top}>
+            <Text style={styles.question}>Q. {decodeURIComponent(question[ques].question)}</Text>
+          </View>
+          <View style={styles.options}>
+            <TouchableOpacity style={styles.optionButton} onPress={() => handleSelectedOption(options[0])}>
+              <Text style={styles.option}>{decodeURIComponent(options[0])}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={() => handleSelectedOption(options[1])}>
+              <Text style={styles.option}>{decodeURIComponent(options[1])}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={() => handleSelectedOption(options[2])}>
+              <Text style={styles.option}>{decodeURIComponent(options[2])}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={() => handleSelectedOption(options[3])}>
+              <Text style={styles.option}>{decodeURIComponent(options[3])}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottom}>
+            {/* <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>PREV</Text>
+            </TouchableOpacity> */}
+            {ques !== 9 && <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText} onPress={handleNextPress}>NEXT</Text>
+            </TouchableOpacity>}
+            {ques === 9 && <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText} onPress={handleShowResult}>SHOW RESULT</Text>
+            </TouchableOpacity>}
+
+          </View>
         </View>
-        <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.options}>option 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.options}>option 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.options}>option 3</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.options}>option 4</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.bottom}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>SKIP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>NEXT</Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText} onPress={() => navigation.navigate('Quiz')}>END</Text>
-        </TouchableOpacity> */}
-        </View>
-        </View>
-        )}
+      )}
     </View>
   )
 }
@@ -64,7 +108,7 @@ const styles = StyleSheet.create({
   top: {
     marginVertical: 16,
   },
-  option: {
+  options: {
     marginVertical: 16,
     flex: 1,
   },
@@ -81,16 +125,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color:  '#FFEFE8',
+    color: '#FFEFE8',
   },
   question: {
     fontSize: 25,
   },
-  options: {
+  option: {
     fontSize: 20,
     paddingVertical: 10,
     paddingHorizontal: 10,
-    
+
   },
   optionButton: {
     backgroundColor: '#B6BBC4',
