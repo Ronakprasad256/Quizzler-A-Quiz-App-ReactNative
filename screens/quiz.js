@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-// import Title from '../components/title';
+import Title from '../components/title';
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -14,13 +14,17 @@ const Quiz = ({navigation}) => {
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState([]);
   const [score, setScore] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const getQuid = async () => {
+    setIsLoading(true)
     const url = 'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
     const res = await fetch(url);
     const data = await res.json();
     setQuestion(data.results);
     setOptions(generateOptionsAndShuffle(data.results[0]))
+    setIsLoading(false)
+
   };
 
   useEffect(() => {
@@ -62,10 +66,12 @@ const Quiz = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container} >
-      {question && (
+    <View style={styles.container}  >
+      {isLoading ? <View><Text>Loading...</Text></View> : question && (
         <View style={styles.parent}>
           <View style={styles.top}>
+          <Title titleText= "QUIZZLER"/>
+
             <Text style={styles.question}>Q. {decodeURIComponent(question[ques].question)}</Text>
           </View>
           <View style={styles.options}>
@@ -104,15 +110,14 @@ export default Quiz
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
-    height: '100%'
+    height: '100%',
   },
-  top: {
-    marginVertical: 16,
-  },
+
   options: {
     marginVertical: 16,
     flex: 1,
+    marginHorizontal: 20,
+
   },
   bottom: {
     paddingVertical: 16,
@@ -121,9 +126,10 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: '#31304D',
+    backgroundColor: '#994D1C',
     textAlign: 'center',
     borderRadius: 10,
+    marginHorizontal: 20
   },
   buttonText: {
     fontSize: 18,
@@ -131,17 +137,18 @@ const styles = StyleSheet.create({
   },
   question: {
     fontSize: 25,
+    marginVertical: 20
   },
   option: {
     fontSize: 20,
     paddingVertical: 10,
     paddingHorizontal: 10,
-
+    color: 'black'
   },
   optionButton: {
-    backgroundColor: '#B6BBC4',
+    backgroundColor: '#DED0B6',
     margin: 5,
-    borderRadius: 15
+    borderRadius: 15,
   },
   parent: {
     height: '90%'

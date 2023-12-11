@@ -5,11 +5,11 @@ import Title from '../components/title';
 const Result = ({ navigation, route }) => {
   const { score } = route.params
 
-  const resultBanner = score > 10 ? "https://cdni.iconscout.com/illustration/premium/thumb/men-celebrating-victory-4587301-3856211.png" : "https://cdni.iconscout.com/illustration/free/thumb/concept-about-business-failure-1862195-1580189.png"
+  const resultBanner = score > 20 ? "https://th.bing.com/th/id/R.b5e2bbe632f1d1fb21183e591090705f?rik=TuCWrP2RJRIvAQ&riu=http%3a%2f%2f1.bp.blogspot.com%2f_geB706KR1Ws%2fTQS720nYlNI%2fAAAAAAAAArM%2fuZI8nsNjhaM%2fs1600%2fiStock_Trophy.jpg&ehk=i2oa7yQQJ7I0fJoWEJiZKRw3Y6ayr4x6H8KOVbxMOJQ%3d&risl=&pid=ImgRaw&r=0" : "https://media.istockphoto.com/photos/depressed-3d-man-sitting-on-white-picture-id484821736?k=6&m=484821736&s=170667a&w=0&h=Hhw9a7B5fxu5cabfbZO1SJdrivqI4wZpIf03gF0SEo0="
   return (
     <View style={styles.container}>
       <Title titleText='RESULTS'/>
-      <Text style={styles.scoreValue}>{score}</Text>
+      <Text style={styles.scoreValue}>YOUR SCORE {score}/100</Text>
       <View style={styles.bannerContainer}>
         <Image
           source={{
@@ -32,8 +32,8 @@ export default Result;
 
 const styles = StyleSheet.create({
   banner: {
-    height: 300,
-    width: 300,
+    height: 420,
+    width: 420,
   },
   bannerContainer: {
     justifyContent: 'center',
@@ -41,24 +41,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    paddingTop: 40,
-    paddingHorizontal: 20,
     height: '100%',
   },
   button: {
     width: '100%',
-    backgroundColor: '#1A759F',
-    padding: 16,
+    backgroundColor: '#DF826C',
+    padding: 8,
     borderRadius: 16,
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     color: 'white',
   },
   scoreValue: {
+    padding: 20,
     fontSize: 24,
     fontWeight: '800',
     alignSelf: 'center'

@@ -5,9 +5,9 @@ import Title from '../components/title'
 const Home = ({ navigation }) => {
     return (
         <View>
-            <Title titleText= "QUIZZLER"/>
+            <Title titleText="QUIZZLER" />
             <View style={styles.bannerContainer}>
-                <Image source={{ uri: 'https://cdn.leverageedu.com/blog/wp-content/uploads/2020/11/23170223/One-Word-Substitution-Quiz-01-3072x1920.jpg' }}
+                <Image source={{ uri: 'https://pbs.twimg.com/media/FLJz6cjXIAQa2MB?format=jpg&name=medium' }}
                     style={styles.banner}
                     resizeMode='contain'
                 />
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '600',
         padding: 10,
-        backgroundColor: '#31304D',
+        backgroundColor: '#DF826C',
         color: '#FFEFE8',
         textAlign: 'center',
         borderRadius: 20,
